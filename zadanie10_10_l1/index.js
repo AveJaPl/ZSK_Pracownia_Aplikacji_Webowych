@@ -1,11 +1,9 @@
 const fs = require('fs');
 
-function generateNumbers() {
-  const numbers = [];
+function* generateNumbersGenerator() {
   for (let i = 0; i < 20; i++) {
-    numbers.push(Math.floor(Math.random() * (2137 - (-420) + 1)) - 420);
+    yield Math.floor(Math.random() * (2137 - (-420) + 1)) - 420;
   }
-  return numbers;
 }
 
 function writeNumbersToFile() {
