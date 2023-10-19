@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('json spaces', 2)
-app.use('/public', express.static(path.join(__dirname, 'public'))); // Obsługa statycznych plików z folderu public
+app.use(express.static(path.join(__dirname, 'public'))); // Obsługa statycznych plików z folderu public
 
 app.get('/', (req, res) => {
   res.send(`
@@ -15,27 +15,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/kontakt', (req, res) => {
-  res.send(`
-    <h1>Kontakt</h1>
-    <form action="/kontakt" method="post">
-      <label for="name">Imię:</label>
-      <input type="text" id="name" name="name"><br><br>
-
-      <label for="email">Adres e-mail:</label>
-      <input type="email" id="email" name="email"><br><br>
-
-      <label for="subject">Temat:</label>
-      <select id="subject" name="subject">
-        <option value="temat1">Temat 1</option>
-        <option value="temat2">Temat 2</option>
-      </select><br><br>
-
-      <label for="message">Treść wiadomości:</label><br>
-      <textarea id="message" name="message" rows="4" cols="50"></textarea><br><br>
-
-      <input type="submit" value="Wyślij">
-    </form>
-  `);
+  const filePath = path.join(__dirname, 'public', 'html', 'index.html');
+  console.log(filePath)
+  res.sendFile(filePath);
 });
 
 app.post('/kontakt', (req, res) => {
