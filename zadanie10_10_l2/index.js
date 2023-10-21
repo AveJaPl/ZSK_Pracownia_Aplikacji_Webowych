@@ -2,8 +2,11 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+const students = require('./public/api/students.js')
+const subjects = require('./public/api/subjects.js')
 
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set('json spaces', 2)
 app.use(express.static(path.join(__dirname, 'public'))); // Obsługa statycznych plików z folderu public
 
@@ -16,7 +19,6 @@ app.get('/', (req, res) => {
 
 app.get('/kontakt', (req, res) => {
   const filePath = path.join(__dirname, 'public', 'html', 'index.html');
-  console.log(filePath)
   res.sendFile(filePath);
 });
 
@@ -33,20 +35,6 @@ app.get('/api', (req, res) => {
     "/api/subjects/:id": "Zwraca przedmiot po id"
   });
 });
-
-// Przykładowe dane dla studentów i przedmiotów
-const students = [...Array(10)].map((_, i) => ({
-  id: i + 1,
-  name: `Name${i + 1}`,
-  surname: `Surname${i + 1}`,
-  email: `email${i + 1}@example.com`
-}));
-
-const subjects = [...Array(10)].map((_, i) => ({
-  id: i + 1,
-  name: `Subject${i + 1}`,
-  hoursAWeek: (i + 1) * 2
-}));
 
 // /api/students endpoint
 app.get('/api/students', (req, res) => {
