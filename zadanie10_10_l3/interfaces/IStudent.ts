@@ -3,7 +3,6 @@ interface IStudent {
     name: string;
     surname: string;
     email: string;
-
 }
 
 export default IStudent;
