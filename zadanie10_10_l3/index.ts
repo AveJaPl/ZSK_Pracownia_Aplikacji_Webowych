@@ -24,6 +24,14 @@ app.get("/kontakt", (req, res) => {
   res.sendFile(filePath);
 });
 
+app.post("/kontakt", (req, res) => {
+  console.log(req.body);
+  res.redirect("/");
+});
+
+
+
+
 app.listen(port, host, () => {
   console.log(`Serwer działa na porcie ${port}`);
 });
