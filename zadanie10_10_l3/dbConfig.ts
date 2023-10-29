@@ -1,5 +1,5 @@
-import mysql from 'mysql';
-import { Pool } from 'mysql';
+import mysql from 'mysql2';
+import { Pool } from 'mysql2';
 
 
 const pool: Pool = mysql.createPool({
