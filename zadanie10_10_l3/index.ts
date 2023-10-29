@@ -25,11 +25,21 @@ app.get("/kontakt", (req, res) => {
 });
 
 app.post("/kontakt", (req, res) => {
-  console.log(req.body);
-  res.redirect("/");
+    const { name, email, message } = req.body;
+
+    const sql = "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)";
+    const values = [name, email, message];
+
+    pool.query(sql, values, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Internal server error");
+        }
+
+        console.log(result);
+        res.redirect("/");
+    });
 });
-
-
 
 
 app.listen(port, host, () => {
