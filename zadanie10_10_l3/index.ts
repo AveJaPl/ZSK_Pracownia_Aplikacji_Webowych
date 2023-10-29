@@ -45,7 +45,7 @@ app.post("/kontakt", (req: Request, res: Response) => {
   });
 });
 
-app.get("api/students", (req: Request, res: Response) => {
+app.get("/api/students", (req: Request, res: Response) => {
   const sql: string = "SELECT * FROM students";
   pool.query(sql, (err: Error, result: IStudent[]) => {
     if (err) {
@@ -56,7 +56,7 @@ app.get("api/students", (req: Request, res: Response) => {
   });
 });
 
-app.get("api/subjects", (req: Request, res: Response) => {
+app.get("/api/subjects", (req: Request, res: Response) => {
   const sql: string = "SELECT * FROM subjects";
   pool.query(sql, (err: Error, result: ISubject[]) => {
     if (err) {
