@@ -28,11 +28,11 @@ app.get("/kontakt", (req: Request, res: Response) => {
 });
 
 app.post("/kontakt", (req: Request, res: Response) => {
-  const { name, email, message }: IMessage = req.body;
+  const { name, email, subject, message }: IMessage = req.body;
 
   const sql: string =
-    "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)";
-  const values: (string | number)[] = [name, email, message];
+    "INSERT INTO messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
+  const values: (string | number)[] = [name, email, subject, message];
 
   pool.query(sql, values, (err, result) => {
     if (err) {
