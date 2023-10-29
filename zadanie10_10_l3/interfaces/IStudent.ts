@@ -5,3 +5,5 @@ interface IStudent {
     email: string;
 
 }
+
+export default IStudent;

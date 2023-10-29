@@ -3,3 +3,5 @@ interface ISubject{
     name: string;
     hoursAWeek: number;
 }
+
+export default ISubject;
