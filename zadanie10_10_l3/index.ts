@@ -70,6 +70,7 @@ app.get("/api/subjects", (req: Request, res: Response) => {
 app.get("/api/subjects/:id", (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id);
   if (isNaN(id)) {
+
     return res.status(400).send("Invalid ID format");
   }
 
@@ -84,7 +85,7 @@ app.get("/api/subjects/:id", (req: Request, res: Response) => {
     if (result.length === 0) {
       return res.status(404).send("Not Found");
     }
-    
+
 
     const subject: ISubject = result[0] as ISubject;
     res.json(subject);
@@ -108,7 +109,7 @@ app.get("/api/students/:id", (req: Request, res: Response) => {
     if (result.length === 0) {
       return res.status(404).send("Not Found");
     }
-    
+
     const student: ISubject = result[0] as ISubject;
     res.json(student);
   });
