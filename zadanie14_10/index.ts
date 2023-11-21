@@ -18,5 +18,5 @@ app.use("/kontakt", contactRoutes)
 app.use('/api', apiRoutes)
 
 app.listen(port, host, () => {
-  console.log(`Serwer działa na porcie ${port}`);
+  console.log(`Serwer działa pod adresem http://${host}:${port}`);
 });
