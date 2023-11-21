@@ -11,13 +11,15 @@ const getContactPage = (req: Request, res: Response) => {
 };
 const insertData = async (req: Request, res: Response) => {
     const { name, email, subject, message }: IMessage = req.body;
-
+    const document: IMessage = { name, email, subject, message };
+    if(!name?.trim()){
+        delete document.name;
+    }
     try {
         const db = client.db("school")
-        const collection = db.collection("messages")
+        const collection = db.collection("contact")
 
-        const result = await collection.insertOne({ name, email, subject, message })
-        console.log("Inserted document:", result)
+        await collection.insertOne(document)
         res.redirect("/")
     } catch (err) {
         console.error(err)
