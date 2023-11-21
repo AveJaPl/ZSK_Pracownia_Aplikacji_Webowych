@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { client } from "../dbConfig";
+import { ObjectId } from "mongodb";
 
 const db = client.db("school");
 
@@ -14,12 +15,7 @@ const getListOfSubjects = async (req: Request, res: Response) => {
 }
 
 const getSubjectById = async (req: Request, res: Response) => {
-    const id: number = parseInt(req.params.id);
-    if (isNaN(id)) {
-
-        return res.status(400).send("Invalid ID format");
-    }
-
+    const id: string = req.params.id;
     try {
         const subject = await db.collection("subjects").findOne({ id: id });
         if (subject === null) {
@@ -43,15 +39,10 @@ const getListOfStudents = async (req: Request, res: Response) => {
 }
 
 const getStudentById = async (req: Request, res: Response) => {
-    const id: number = parseInt(req.params.id);
-    if (isNaN(id)) {
-
-        return res.status(400).send("Invalid ID format");
-    }
-
+    const id: string = req.params.id;
     try {
         const student = await db.collection("students").findOne({ id: id });
-        if (student === null) {
+        if (!student) {
             return res.status(404).send("Not Found");
         }
         res.json(student);
