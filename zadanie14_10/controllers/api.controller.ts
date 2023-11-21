@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { client } from "../dbConfig";
-import { ObjectId } from "mongodb";
 
 const db = client.db("school");
 
@@ -52,9 +51,20 @@ const getStudentById = async (req: Request, res: Response) => {
     }
 };
 
+const getListOfMessages = async (req: Request, res: Response) => {
+    try {
+        const messages = await db.collection("contact").find().toArray();
+        res.json(messages);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal server error");
+    }
+}
+
 export {
     getListOfSubjects,
     getSubjectById,
     getListOfStudents,
-    getStudentById
+    getStudentById,
+    getListOfMessages
 }
