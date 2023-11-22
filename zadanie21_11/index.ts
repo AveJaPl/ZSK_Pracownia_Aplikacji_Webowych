@@ -16,7 +16,10 @@ app.use(bodyParser.json());
 app.set('json spaces', 2);
 
 app.use('/users', usersRouter)
-
+app.use('/posts', postsRoutes)
+app.use('/comments', commentsRoutes)
+app.use('/categories', categoriesRoutes)
+app.use('/profiles', profilesRoutes)
 
 app.listen(PORT, host, () => {
     console.log(`Server is running at http://${host}:${PORT}`);
