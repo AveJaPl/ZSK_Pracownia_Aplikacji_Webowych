@@ -32,13 +32,14 @@ const getPostsController = async (req: Request, res: Response<PostResponse[] | {
     }
 };
 
-const getPostController = async (req: Request<{ id: string }>, res: Response<PostResponse | { error: string }>) => {
+const getPostController = async (req: Request<{ id: string }>, res: Response<PostResponse[] | { error: string }>) => {
     try {
         const parsedId = parseId(req.params.id);
-        const post = await prisma.post.findUnique({ where: { id: parsedId }, include: { author: true } });
+        const post = (await prisma.post.findMany({ where: { authorId: parsedId }}));
 
         if (post) {
-            res.json(createPostResponse(post));
+            const postResponse: PostResponse[] = post.map(createPostResponse);
+            res.json(postResponse);
         } else {
             res.status(404).json({ error: `Post with id ${req.params.id} not found` });
         }
