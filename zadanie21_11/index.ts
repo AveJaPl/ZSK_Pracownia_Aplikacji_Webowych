@@ -1,5 +1,4 @@
 import express, { Express } from 'express';
-import { PrismaClient } from '@prisma/client';
 import bodyParser from 'body-parser';
 import usersRouter from './routes/user.routes';
 import postsRoutes from './routes/posts.routes';
