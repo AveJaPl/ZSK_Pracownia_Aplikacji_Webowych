@@ -29,19 +29,19 @@ const getCommentsController = async (req: Request, res: Response<CommentResponse
     }
 };
 
-const getCommentController = async (req: Request<{ id: string }>, res: Response<CommentResponse | { error: string }>) => {
+const getCommentController = async (req: Request<{ id: string }>, res: Response<CommentResponse[] | { error: string }>) => {
     const { id } = req.params;
     const parsedId = parseId(id);
 
     try {
-        const comment = await prisma.comment.findUnique({
+        const comment = await prisma.comment.findMany({
             where: {
-                id: parsedId,
+                postId: parsedId,
             },
         });
 
         if (comment) {
-            const commentResponse: CommentResponse = createCommentResponse(comment);
+            const commentResponse: CommentResponse[] = comment.map(createCommentResponse);
             res.json(commentResponse);
         } else {
             res.status(404).json({ error: `Comment with id ${id} not found` });
