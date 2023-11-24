@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-
-const dataSchema = new mongoose.Schema({
+import { Schema } from "mongoose";
+const randDataSchema = new Schema({
     key: String,
     value: mongoose.Schema.Types.Mixed,
-}, { timestamps: true });
+});
 
-export const DataModel = mongoose.model("Data", dataSchema);
+export const randDataModel = mongoose.model("randData", randDataSchema);
