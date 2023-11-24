@@ -1,11 +1,12 @@
 import { Response, Request } from "express";
-import { DataModel } from "../data.schema";
+import { randDataModel } from "../data.schema";
 
 const createRandomDataController = async (req: Request, res: Response) => {
     try {
         const { key, value } = req.body;
-        const newData = new DataModel({ key, value });
+        const newData = new randDataModel({ key: key, value: value });
         const createdData = await newData.save();
+        console.log(createdData);
         res.status(201).json(createdData);
 
     } catch (error) {
