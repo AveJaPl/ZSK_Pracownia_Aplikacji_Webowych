@@ -32,7 +32,7 @@ const getPostsController = async (req: Request, res: Response<PostResponse[] | {
     }
 };
 
-const getPostController = async (req: Request<{ id: string }>, res: Response<PostResponse[] | { error: string }>) => {
+const getPostsByAuthorController = async (req: Request<{ id: string }>, res: Response<PostResponse[] | { error: string }>) => {
     try {
         const parsedId = parseId(req.params.id);
         const post = (await prisma.post.findMany({ where: { authorId: parsedId }}));
@@ -49,6 +49,23 @@ const getPostController = async (req: Request<{ id: string }>, res: Response<Pos
     }
 
 };
+
+const getPostController = async (req: Request<{ id: string }>, res: Response<PostResponse | { error: string }>) => {
+    try {
+        const parsedId = parseId(req.params.id);
+        const post = await prisma.post.findUnique({ where: { id: parsedId }, include: { author: true } });
+
+        if (post) {
+            res.json(createPostResponse(post));
+        } else {
+            res.status(404).json({ error: `Post with id ${req.params.id} not found` });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Error occurred while retrieving post: " });
+    }
+};
+
 
 const createPostController = async (req: Request<{}, {}, CreatePostBody>, res: Response<PostResponse | { error: string }>) => {
     const { title, content, published, authorId } = req.body;
@@ -111,4 +128,4 @@ const deletePostController = async (req: Request<{ id: string }>, res: Response<
     }
 };
 
-export { getPostsController, getPostController, createPostController, updatePostController, deletePostController };
+export { getPostsController, getPostController, createPostController, updatePostController, deletePostController, getPostsByAuthorController };
