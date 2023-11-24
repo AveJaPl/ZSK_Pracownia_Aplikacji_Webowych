@@ -29,7 +29,7 @@ const getCommentsController = async (req: Request, res: Response<CommentResponse
     }
 };
 
-const getCommentController = async (req: Request<{ id: string }>, res: Response<CommentResponse[] | { error: string }>) => {
+const getCommentsByAuthorController = async (req: Request<{ id: string }>, res: Response<CommentResponse[] | { error: string }>) => {
     const { id } = req.params;
     const parsedId = parseId(id);
 
@@ -50,6 +50,28 @@ const getCommentController = async (req: Request<{ id: string }>, res: Response<
         res.status(500).json({ error: "An error occurred while retrieving the comment." });
     }
 };
+
+const getCommentController = async (req: Request<{ id: string }>, res: Response<CommentResponse | { error: string }>) => {
+    const { id } = req.params;
+    const parsedId = parseId(id);
+
+    try {
+        const comment = await prisma.comment.findUnique({
+            where: {
+                id: parsedId,
+            },
+        });
+
+        if (comment) {
+            res.json(createCommentResponse(comment));
+        } else {
+            res.status(404).json({ error: `Comment with id ${id} not found` });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while retrieving the comment." });
+    }
+}
+
 
 const createCommentController = async (req: Request<{}, {}, CreateCommentBody>, res: Response<CommentResponse | { error: string }>) => {
     const { content, postId } = req.body;
@@ -132,4 +154,4 @@ const deleteCommentController = async (req: Request<{ id: string }>, res: Respon
     }
 };
 
-export { getCommentsController, getCommentController, createCommentController, updateCommentController, deleteCommentController };
+export { getCommentsController, getCommentsByAuthorController, getCommentController, createCommentController, updateCommentController, deleteCommentController };
