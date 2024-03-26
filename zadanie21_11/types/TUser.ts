@@ -11,10 +11,7 @@ type UpdateUserBody = {
 type UserResponse = {
     id: number;
     email: string;
-    profile: {
-        id: number;
-        bio: string;
-    } | null
+    bio?: string;
 }
 
 export {

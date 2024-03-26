@@ -74,7 +74,11 @@ const getCommentController = async (req: Request<{ id: string }>, res: Response<
 
 
 const createCommentController = async (req: Request<{}, {}, CreateCommentBody>, res: Response<CommentResponse | { error: string }>) => {
-    const { content, postId } = req.body;
+    let { content, postId } = req.body;
+
+    if(typeof postId !== "number") {
+        postId = parseInt(postId);
+    }
 
     try {
         const comment = await prisma.comment.create({
@@ -91,6 +95,7 @@ const createCommentController = async (req: Request<{}, {}, CreateCommentBody>, 
         const commentResponse: CommentResponse = createCommentResponse(comment);
         res.json(commentResponse);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: "An error occurred while creating the comment." });
     }
 };
@@ -99,7 +104,6 @@ const updateCommentController = async (req: Request<{ id: string }, {}, UpdateCo
     const { id } = req.params;
     const { content } = req.body;
     const parsedId = parseId(id);
-
     try {
         const existingComment = await prisma.comment.findUnique({
             where: {

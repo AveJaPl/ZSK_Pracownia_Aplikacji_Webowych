@@ -15,12 +15,7 @@ const createUserResponse = (user: any): UserResponse => {
     return {
         id: user.id,
         email: user.email,
-        profile: user.profile
-        ? {
-            id: user.profile.id,
-            bio: user.profile.bio,
-            }
-        : null,
+        bio: user.profile?.bio || null,
     };
     };
 
@@ -31,6 +26,7 @@ const getUsersController = async (
   try {
     const users = await prisma.user.findMany({ include: { profile: true } });
     const userResponse: UserResponse[] = users.map(createUserResponse)
+
     res.json(userResponse);
   } catch (error) {
     res.status(500).json({ error: "Błąd podczas pobierania użytkowników." });

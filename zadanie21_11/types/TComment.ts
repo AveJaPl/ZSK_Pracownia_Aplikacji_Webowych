@@ -5,6 +5,7 @@ type CreateCommentBody = {
 
 type UpdateCommentBody = {
     content: string;
+    postId: number;
 };
 
 type CommentResponse = {
